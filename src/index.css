@@ -6,8 +6,8 @@
   --color-border: #e6e1d8;
   --color-text: #2c281f;
   --color-text-muted: #6b6455;
-  --color-accent: #9a6b2f;
-  --color-accent-bg: #f1e6d3;
+  --color-accent: #5f6b2a;
+  --color-accent-bg: #e8ecd3;
   --color-accent-contrast: #ffffff;
 }
 
@@ -18,8 +18,8 @@
     --color-border: #34312a;
     --color-text: #f0ece3;
     --color-text-muted: #b3ab9a;
-    --color-accent: #d4a24e;
-    --color-accent-bg: #3a2f1c;
+    --color-accent: #a4b455;
+    --color-accent-bg: #2b3216;
     --color-accent-contrast: #171613;
   }
 }
