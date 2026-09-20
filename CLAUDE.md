@@ -53,6 +53,7 @@ not fetched from an API.
   and
   [src/components/MemorialSecaoAccordion.tsx](src/components/MemorialSecaoAccordion.tsx) —
   self-contained accordion rows, each with its own open/closed state.
+- [src/lib/assistente.ts](src/lib/assistente.ts), [src/data/fatos.ts](src/data/fatos.ts) and [src/components/Assistente.tsx](src/components/Assistente.tsx) — the "Assistente" tab: a rule-based (no AI, no cost) Q&A. `fatos.ts` holds hand-structured facts per development (vagas, unidades, ar-condicionado, pisos, bancadas, churrasqueira), each citing the memorial item; totals such as vagas were summed by hand from the cited items. `responder()` matches keyword rules to those topics and otherwise falls back to a token-scored search over `memorial.ts` + `faq.ts`. New topic = add a `Topico`, a rule in `regrasTopicos`, a title in `titulosTopicos`, and data for all 5 developments in `fatos.ts`.
 - The `'geral'` empreendimento id is special-cased in the FAQ filter logic in
   `App.tsx`: it means "show items regardless of which empreendimento they
   belong to" rather than an actual development. It has no equivalent on the

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { FaqAccordionItem } from './components/FaqAccordionItem'
+import { Assistente } from './components/Assistente'
 import { MemorialSecaoAccordion } from './components/MemorialSecaoAccordion'
 import { empreendimentos, faqItems, type Categoria } from './data/faq'
 import { getMemorialDoEmpreendimento } from './data/memorial'
@@ -9,7 +10,7 @@ const categorias: { id: Categoria; label: string }[] = [
   { id: 'instalacoes', label: 'Instalações' },
 ]
 
-type Aba = 'faq' | 'memorial'
+type Aba = 'faq' | 'memorial' | 'assistente'
 
 function App() {
   const [aba, setAba] = useState<Aba>('faq')
@@ -93,16 +94,29 @@ function App() {
           >
             Memorial técnico completo
           </button>
+          <button
+            type="button"
+            onClick={() => setAba('assistente')}
+            className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
+              aba === 'assistente'
+                ? 'bg-[var(--color-accent)] text-[var(--color-accent-contrast)] border-[var(--color-accent)]'
+                : 'border-[var(--color-border)] text-[var(--color-text-muted)]'
+            }`}
+          >
+            Assistente
+          </button>
         </div>
 
         <div className="flex flex-col gap-4 md:flex-row md:items-center">
-          <input
-            type="search"
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-            placeholder="Buscar por palavra-chave (ex: piso, tomada, ar-condicionado)"
-            className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-[var(--color-text)] outline-none focus:border-[var(--color-accent)]"
-          />
+          {aba !== 'assistente' && (
+            <input
+              type="search"
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              placeholder="Buscar por palavra-chave (ex: piso, tomada, ar-condicionado)"
+              className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-[var(--color-text)] outline-none focus:border-[var(--color-accent)]"
+            />
+          )}
           <select
             value={empreendimentoId}
             onChange={(e) => setEmpreendimentoId(e.target.value)}
@@ -158,6 +172,8 @@ function App() {
             </div>
           </>
         )}
+
+        {aba === 'assistente' && <Assistente empreendimentoId={empreendimentoId} />}
 
         {aba === 'memorial' && (
           <div className="flex flex-col gap-3">
