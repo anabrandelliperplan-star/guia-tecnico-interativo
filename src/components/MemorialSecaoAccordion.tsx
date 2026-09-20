@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { getExplicacao } from '../data/explicacoes'
 import type { MemorialSecao } from '../data/memorial'
 
 interface Props {
@@ -26,16 +27,32 @@ export function MemorialSecaoAccordion({ secao, defaultOpen = false }: Props) {
         </span>
       </button>
       {open && (
-        <div className="px-4 pb-4 flex flex-col gap-3">
-          {secao.subitens.map((item) => (
-            <div key={item.titulo}>
-              <p className="text-sm font-medium text-[var(--color-accent)] mb-1">{item.titulo}</p>
-              <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">{item.texto}</p>
-              <p className="mt-1 text-xs italic text-[var(--color-text-muted)]/80">
-                Fonte: Memorial Descritivo, {item.fonte}
-              </p>
-            </div>
-          ))}
+        <div className="px-4 pb-4 flex flex-col gap-5">
+          {secao.subitens.map((item) => {
+            const explicacao = getExplicacao(secao.id, item.titulo)
+            return (
+              <div key={item.titulo} className="flex flex-col gap-2">
+                <p className="text-sm font-medium text-[var(--color-accent)]">{item.titulo}</p>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)] mb-1">
+                    Texto do memorial
+                  </p>
+                  <p className="text-sm text-[var(--color-text)] leading-relaxed">{item.texto}</p>
+                  <p className="mt-1 text-xs italic text-[var(--color-text-muted)]/80">
+                    Fonte: Memorial Descritivo, {item.fonte}
+                  </p>
+                </div>
+                {explicacao && (
+                  <div className="rounded-md bg-[var(--color-accent-bg)] px-3 py-2">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)] mb-1">
+                      Explicação em linguagem simples
+                    </p>
+                    <p className="text-sm text-[var(--color-text)] leading-relaxed">{explicacao}</p>
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
