@@ -14,10 +14,15 @@ export function Assistente({ empreendimentoId }: Props) {
   const [texto, setTexto] = useState('')
   const [mensagens, setMensagens] = useState<Mensagem[]>([])
 
-  function perguntar(pergunta: string) {
+  function perguntar(pergunta: string, alternar = false) {
     const limpa = pergunta.trim()
     if (limpa === '') return
-    setMensagens((atuais) => [{ pergunta: limpa, resposta: responder(limpa, empreendimentoId) }, ...atuais])
+    setMensagens((atuais) => {
+      const jaAberta = atuais.some((m) => m.pergunta === limpa)
+      if (jaAberta && alternar) return atuais.filter((m) => m.pergunta !== limpa)
+      const restantes = atuais.filter((m) => m.pergunta !== limpa)
+      return [{ pergunta: limpa, resposta: responder(limpa, empreendimentoId) }, ...restantes]
+    })
     setTexto('')
   }
 
@@ -55,8 +60,13 @@ export function Assistente({ empreendimentoId }: Props) {
           <button
             key={p}
             type="button"
-            onClick={() => perguntar(p)}
-            className="px-3 py-1.5 rounded-full text-xs border border-[var(--color-border)] text-[var(--color-text-muted)] hover:border-[var(--color-accent)] cursor-pointer text-left"
+            onClick={() => perguntar(p, true)}
+            aria-pressed={mensagens.some((m) => m.pergunta === p)}
+            className={`px-3 py-1.5 rounded-full text-xs border hover:border-[var(--color-accent)] cursor-pointer text-left ${
+              mensagens.some((m) => m.pergunta === p)
+                ? 'border-[var(--color-accent)] bg-[var(--color-accent-bg)] text-[var(--color-text)]'
+                : 'border-[var(--color-border)] text-[var(--color-text-muted)]'
+            }`}
           >
             {p}
           </button>
